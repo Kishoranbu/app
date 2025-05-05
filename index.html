@@ -1,191 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PyBuddy Junior Web</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #121212;
-            --bg-card: #1e1e1e;
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0b0;
-            --accent: #4caf50;
-            --accent-hover: #66bb6a;
-            --transition: 0.3s;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Roboto', sans-serif; background: var(--bg-dark); color: var(--text-primary); }
-        header { background: var(--bg-card); padding: 2rem; text-align: center; font-size: 1.8rem; font-weight: 500; color: var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        nav { display: flex; justify-content: space-around; background: var(--bg-card); padding: 0.5rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        nav button { background: none; border: none; color: var(--text-secondary); font-size: 1rem; font-weight: 500; cursor: pointer; padding: 0.5rem 1rem; transition: color var(--transition); }
-        nav button.active, nav button:hover { color: var(--accent); }
-        .screen { display: none; padding: 2rem; }
-        .screen.active { display: block; }
-        h2 { margin-bottom: 1rem; color: var(--accent); }
-        .card { background: var(--bg-card); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.5); transition: transform var(--transition), box-shadow var(--transition); }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 4px 8px rgba(0,0,0,0.7); }
-        .lesson-card { cursor: pointer; display: flex; flex-direction: column; padding: 1rem; }
-        .lesson-card strong { font-size: 1.2rem; color: var(--text-primary); margin-bottom: 0.5rem; }
-        .lesson-card span { font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
-        .lesson-card small { font-size: 0.85rem; color: var(--text-secondary); }
-        .quiz-section { display: grid; gap: 1rem; }
-        .question { font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .options { display: grid; gap: 0.5rem; }
-        .options button { background: var(--bg-card); border: 2px solid var(--accent); border-radius: 6px; padding: 0.75rem; color: var(--text-primary); font-size: 1rem; cursor: pointer; transition: background var(--transition), transform var(--transition); }
-        .options button:hover { background: var(--accent-hover); transform: translateY(-2px); }
-        .chatbox { margin-bottom: 1rem; }
-        #chat-messages { max-height: 300px; overflow-y: auto; margin-bottom: 1rem; }
-        #chat-messages .chatbox { background: var(--bg-card); padding: 0.75rem; border-radius: 6px; }
-        #chat-messages .chatbox.user { border-left: 4px solid var(--accent); }
-        #chat-messages .chatbox.bot { border-left: 4px solid var(--text-secondary); }
-        input, button.send-btn { padding: 0.75rem; border-radius: 6px; border: none; font-size: 1rem; }
-        input { flex: 1; margin-right: 0.5rem; background: var(--bg-card); color: var(--text-primary); }
-        button.send-btn { background: var(--accent); color: #000; cursor: pointer; transition: background var(--transition); }
-        button.send-btn:hover { background: var(--accent-hover); }
-        .progress-box { display: grid; gap: 0.5rem; }
-        iframe.intro { width: 100%; max-width: 800px; height: 450px; border: none; margin-top: 1rem; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PyBuddy Junior Web</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #121212;
+      --bg-card: #1e1e1e;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --accent: #4caf50;
+      --accent-hover: #66bb6a;
+      --transition: 0.3s;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Roboto', sans-serif; background: var(--bg-dark); color: var(--text-primary); }
+    header { background: var(--bg-card); padding: 1rem; text-align: center; font-size: 1.5rem; font-weight: 500; color: var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    nav { display: flex; justify-content: space-around; background: var(--bg-card); padding: 0.5rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    nav button { background: none; border: none; color: var(--text-secondary); font-size: 1rem; font-weight: 500; cursor: pointer; padding: 0.5rem 1rem; transition: color var(--transition); }
+    nav button.active, nav button:hover { color: var(--accent); }
+    .screen { display: none; padding: 2rem; }
+    .screen.active { display: block; }
+    h2 { margin-bottom: 1rem; color: var(--accent); }
+    h3 { color: var(--accent); margin-bottom: 0.5rem; }
+    p { margin-bottom: 0.5rem; }
+    ul { margin-left: 1.2rem; margin-bottom: 1rem; }
+    .card { background: var(--bg-card); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.5); transition: transform var(--transition), box-shadow var(--transition); }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 4px 8px rgba(0,0,0,0.7); }
+    .lesson-topic { cursor: pointer; margin-bottom: 0.5rem; color: var(--accent); text-decoration: underline; }
+    .options button { background: var(--bg-card); border: 2px solid var(--accent); border-radius: 6px; padding: 0.75rem; color: var(--text-primary); font-size: 1rem; cursor: pointer; transition: background var(--transition), transform var(--transition); margin: 0.25rem; }
+    .options button:hover { background: var(--accent-hover); transform: translateY(-2px); }
+    .chatbox { margin-bottom: 1rem; display: flex; }
+    input, button.send-btn { padding: 0.75rem; border-radius: 6px; border: none; font-size: 1rem; }
+    input { flex: 1; margin-right: 0.5rem; background: var(--bg-card); color: var(--text-primary); }
+    button.send-btn { background: var(--accent); color: #000; cursor: pointer; transition: background var(--transition); }
+    button.send-btn:hover { background: var(--accent-hover); }
+    .chat-history { max-height: 250px; overflow-y: auto; margin-bottom: 1rem; background: var(--bg-card); padding: 1rem; border-radius: 6px; }
+    .chat-history p { margin-bottom: 0.5rem; }
+    iframe { width: 100%; height: 300px; border: none; border-radius: 8px; margin-top: 1rem; }
+    .intro-text { line-height: 1.6; }
+  </style>
 </head>
 <body>
-    <header>🐍 Welcome to PyBuddy Junior</header>
-    <nav>
-        <button class="tab active" data-tab="home">🏠 Home</button>
-        <button class="tab" data-tab="learn">📘 Learn</button>
-        <button class="tab" data-tab="practice">🧩 Practice</button>
-        <button class="tab" data-tab="chatbot">🤖 Chatbot</button>
-        <button class="tab" data-tab="progress">📊 Progress</button>
-    </nav>
+<header>🐍 PyBuddy Junior: Python Course</header>
+<nav>
+  <button class="tab active" data-tab="home">🏠 Home</button>
+  <button class="tab" data-tab="learn">📘 Learn</button>
+  <button class="tab" data-tab="game">🎮 Game</button>
+  <button class="tab" data-tab="chatbot">🤖 Chatbot</button>
+</nav>
 
-    <div id="home" class="screen active">
-        <h2>About PyBuddy Junior</h2>
-        <div class="card">
-            <p>PyBuddy Junior is an intuitive web platform designed to teach Python through interactive content.</p>
-            <p><strong>How to Use:</strong></p>
-            <ol>
-                <li><strong>Home:</strong> Get an overview of features and navigation tips.</li>
-                <li><strong>Learn:</strong> Explore detailed lesson notes and watch tutorial videos.</li>
-                <li><strong>Practice:</strong> Test your knowledge with multiple-choice quizzes.</li>
-                <li><strong>Chatbot:</strong> Ask for explanations, code snippets, and debugging help.</li>
-                <li><strong>Progress:</strong> Track completed lessons and quiz scores.</li>
-            </ol>
-            <p>Start by clicking <em>Learn</em> to dive into your first topic!</p>
-        </div>
-    </div>
+<!-- Home Section -->
+<div id="home" class="screen active">
+  <h2>Welcome to PyBuddy Junior</h2>
+  <div class="card intro-text">
+    <h3>Introduction to Python Programming</h3>
+    <p>Welcome to PyBuddy Junior, your ultimate companion for learning Python programming in a fun and interactive way! Python is one of the most popular programming languages in the world, known for its simplicity and versatility. Whether you're a complete beginner or looking to refresh your skills, PyBuddy Junior is here to guide you through your coding journey.</p>
+    
+    <p>Python is an excellent first programming language because its syntax (the way you write code) is clear and easy to understand. It's used by major companies like Google, NASA, YouTube, and Instagram for everything from web development to scientific computing. With PyBuddy Junior, you'll learn not just how to write code, but how to think like a programmer.</p>
+    
+    <h3>Why Learn Python?</h3>
+    <p>Python is everywhere! Here's why you should learn it:</p>
+    <ul>
+      <li><strong>Easy to Learn:</strong> Python reads almost like English, making it perfect for beginners</li>
+      <li><strong>Versatile:</strong> You can build websites, games, data analysis tools, and even artificial intelligence</li>
+      <li><strong>In-Demand Skill:</strong> Python developers are among the highest-paid in the tech industry</li>
+      <li><strong>Large Community:</strong> Millions of Python programmers can help when you get stuck</li>
+      <li><strong>Fun Projects:</strong> Create games, automate tasks, analyze data, and more!</li>
+    </ul>
+    
+    <h3>What You'll Learn with PyBuddy Junior</h3>
+    <p>Our interactive platform will guide you through all the essential Python concepts:</p>
+    <ul>
+      <li><strong>Basic Syntax:</strong> Learn how to write proper Python code</li>
+      <li><strong>Variables & Data Types:</strong> Store and work with different kinds of information</li>
+      <li><strong>Control Flow:</strong> Make decisions in your code with conditions</li>
+      <li><strong>Loops:</strong> Repeat actions efficiently</li>
+      <li><strong>Functions:</strong> Create reusable blocks of code</li>
+      <li><strong>Data Structures:</strong> Organize data with lists, dictionaries, and more</li>
+      <li><strong>File Handling:</strong> Read and write files</li>
+      <li><strong>Error Handling:</strong> Make your programs more robust</li>
+    </ul>
+    
+    <h3>How to Use PyBuddy Junior</h3>
+    <p>Our platform offers multiple ways to learn:</p>
+    <ul>
+      <li><strong>Learn Section:</strong> Interactive lessons with explanations and videos</li>
+      <li><strong>Game Section:</strong> Test your knowledge with quizzes and puzzles</li>
+      <li><strong>Chatbot:</strong> Get instant help with your Python questions</li>
+    </ul>
+    
+    <p>Python programming is an incredibly valuable skill in today's digital world. Whether you want to build games, analyze data, create websites, or automate boring tasks, Python can help you do it. PyBuddy Junior makes learning Python fun and engaging with interactive lessons, hands-on exercises, and immediate feedback.</p>
+    
+    <p>Remember, every expert programmer was once a beginner. Don't worry if some concepts seem difficult at first - that's completely normal! The key is to practice regularly and not be afraid to make mistakes. With PyBuddy Junior as your guide, you'll be writing Python programs in no time.</p>
+    
+    <p>Ready to start your Python journey? Click on the "Learn" tab to begin with our first lesson, or try the "Game" section to test your knowledge. If you have any questions along the way, our friendly chatbot is always available to help!</p>
+  </div>
+</div>
 
-    <div id="learn" class="screen">
-        <h2>Python Lessons</h2>
-        <div id="lessons" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;"></div>
-    </div>
+<!-- Learn Section -->
+<div id="learn" class="screen">
+  <h2>Learn Python Topics</h2>
+  <div>
+    <div class="lesson-topic" onclick="showLesson('variables')">1. Variables & Data Types</div>
+    <div class="lesson-topic" onclick="showLesson('operators')">2. Operators</div>
+    <div class="lesson-topic" onclick="showLesson('strings')">3. Strings</div>
+    <div class="lesson-topic" onclick="showLesson('lists')">4. Lists</div>
+    <div class="lesson-topic" onclick="showLesson('tuples')">5. Tuples</div>
+    <div class="lesson-topic" onclick="showLesson('dictionaries')">6. Dictionaries</div>
+    <div class="lesson-topic" onclick="showLesson('sets')">7. Sets</div>
+    <div class="lesson-topic" onclick="showLesson('ifelse')">8. If-Else Conditions</div>
+    <div class="lesson-topic" onclick="showLesson('loops')">9. Loops (for & while)</div>
+    <div class="lesson-topic" onclick="showLesson('functions')">10. Functions</div>
+    <div class="lesson-topic" onclick="showLesson('modules')">11. Modules & Importing</div>
+    <div class="lesson-topic" onclick="showLesson('files')">12. File Handling</div>
+    <div class="lesson-topic" onclick="showLesson('exceptions')">13. Exception Handling</div>
+    <div class="lesson-topic" onclick="showLesson('classes')">14. Classes & Objects</div>
+    <div class="lesson-topic" onclick="showLesson('inheritance')">15. Inheritance</div>
+    <div class="lesson-topic" onclick="showLesson('decorators')">16. Decorators</div>
+    <div class="lesson-topic" onclick="showLesson('generators')">17. Generators</div>
+    <div class="lesson-topic" onclick="showLesson('lambdas')">18. Lambda Functions</div>
+    <div class="lesson-topic" onclick="showLesson('comprehensions')">19. List Comprehensions</div>
+    <div class="lesson-topic" onclick="showLesson('datetime')">20. Date & Time</div>
+  </div>
+  <div class="card" id="lesson-content" style="display:none;">
+    <h3 id="lesson-title"></h3>
+    <p id="lesson-notes"></p>
+    <iframe id="lesson-video" src="" allowfullscreen></iframe>
+  </div>
+</div>
 
-    <div id="practice" class="screen">
-        <h2>Quiz & Puzzles</h2>
-        <div class="quiz-section">
-            <div class="card">
-                <div id="quiz-question" class="question"></div>
-                <div id="quiz-options" class="options"></div>
-                <button onclick="nextQuestion()" class="send-btn" style="margin-top:1rem;">Next</button>
-            </div>
-        </div>
-    </div>
+<!-- Game Section -->
+<div id="game" class="screen">
+  <h2>Quiz & Puzzles</h2>
+  <div class="card">
+    <h3 id="quiz-question">Loading question...</h3>
+    <div id="quiz-options" class="options"></div>
+    <p id="quiz-result" style="margin-top:1rem; font-weight:bold;"></p>
+  </div>
+  <div class="card">
+    <h3 id="fill-in-blank-question">Loading fill-in-the-blank...</h3>
+    <div id="fill-in-blank-options" class="options"></div>
+    <p id="fill-in-blank-answer" style="margin-top:1rem; font-weight:bold;"></p>
+  </div>
+</div>
 
-    <div id="chatbot" class="screen">
-        <h2>Ask PyBuddy</h2>
-        <div id="chat-messages"></div>
-        <div style="display:flex; gap:0.5rem;">
-            <input type="text" id="chat-input" placeholder="Ask about Python...">
-            <button class="send-btn" onclick="sendChat()">Send</button>
-        </div>
-    </div>
+<!-- Chatbot Section -->
+<div id="chatbot" class="screen">
+  <h2>Ask PyBuddy</h2>
+  <div class="chat-history" id="chat-history"></div>
+  <div class="chatbox">
+    <input type="text" id="user-input" placeholder="Ask a Python question..." onkeypress="handleKeyPress(event)">
+    <button class="send-btn" onclick="sendMessage()">Send</button>
+  </div>
+</div>
 
-    <div id="progress" class="screen">
-        <h2>Your Progress</h2>
-        <div class="progress-box card">
-            <p>Lessons: <span id="lesson-progress">0</span>/8</p>
-            <p>Quizzes: <span id="quiz-progress">0</span>+</p>
-        </div>
-    </div>
+<script>
+  // Tab navigation
+  const tabs = document.querySelectorAll('.tab');
+  const screens = document.querySelectorAll('.screen');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      screens.forEach(screen => screen.classList.remove('active'));
+      document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+  });
 
-    <script>
-        const tabs = document.querySelectorAll('.tab');
-        const screens = document.querySelectorAll('.screen');
-        tabs.forEach(tab => tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            screens.forEach(s => s.classList.remove('active'));
-            document.getElementById(tab.dataset.tab).classList.add('active');
-            if (tab.dataset.tab === 'learn') loadLessons();
-            if (tab.dataset.tab === 'practice') loadQuiz();
-            if (tab.dataset.tab === 'progress') updateProgress();
-        }));
+  // Learn topics and videos
+  const lessons = {
+    variables: {
+      title: "1. Variables & Data Types",
+      notes: "Variables are containers for storing data values. In Python, you don't need to declare variables before using them. Python has various data types: integers (whole numbers), floats (decimal numbers), strings (text), and booleans (True/False).\n\nExample:\nx = 5  # integer\ny = 3.14  # float\nname = 'Python'  # string\nis_cool = True  # boolean",
+      video: "https://www.youtube.com/embed/ohCDWZgNIU0"
+    },
+    operators: {
+      title: "2. Operators",
+      notes: "Operators are used to perform operations on variables and values. Python has arithmetic operators (+, -, *, /, %), comparison operators (==, !=, >, <), logical operators (and, or, not), and assignment operators (=, +=, -=).\n\nExample:\na = 10 + 5  # addition\nb = 10 == 5  # comparison (False)\nc = True and False  # logical (False)",
+      video: "https://www.youtube.com/embed/v5MR5JnKcZI"
+    },
+    strings: {
+      title: "3. Strings",
+      notes: "Strings are sequences of characters used to store text. You can create them with single or double quotes. Python provides many string methods like upper(), lower(), split(), replace(), etc.\n\nExample:\ngreeting = 'Hello World'\nprint(greeting.upper())  # HELLO WORLD\nprint(len(greeting))  # 11\nprint(greeting[0:5])  # Hello",
+      video: "https://www.youtube.com/embed/k9TUPpGqYTo"
+    },
+    lists: {
+      title: "4. Lists",
+      notes: "Lists are ordered, mutable collections of items. They can contain items of different types and are created using square brackets []. You can add, remove, or change items.\n\nExample:\nfruits = ['apple', 'banana', 'cherry']\nfruits.append('orange')  # add item\nfruits[1] = 'blueberry'  # change item\nprint(fruits[0:2])  # ['apple', 'blueberry']",
+      video: "https://www.youtube.com/embed/Eaz5e6M8tL4"
+    },
+    tuples: {
+      title: "5. Tuples",
+      notes: "Tuples are like lists but immutable (cannot be changed after creation). They're created with parentheses (). Useful for fixed data that shouldn't change.\n\nExample:\ncolors = ('red', 'green', 'blue')\nprint(colors[1])  # green\n# colors[1] = 'yellow' would cause an error",
+      video: "https://www.youtube.com/embed/4nzI4RKwb5I"
+    },
+    dictionaries: {
+      title: "6. Dictionaries",
+      notes: "Dictionaries store key-value pairs in curly braces {}. They're unordered, changeable, and don't allow duplicate keys.\n\nExample:\nperson = {'name': 'John', 'age': 30}\nprint(person['name'])  # John\nperson['city'] = 'New York'  # add new key-value\nprint(person.keys())  # dict_keys(['name', 'age', 'city'])",
+      video: "https://www.youtube.com/embed/daefaLgNkw0"
+    },
+    sets: {
+      title: "7. Sets",
+      notes: "Sets are unordered collections of unique items. Useful for membership testing and eliminating duplicates.\n\nExample:\nnumbers = {1, 2, 3, 3, 4}\nprint(numbers)  # {1, 2, 3, 4}\nnumbers.add(5)\nnumbers.remove(2)",
+      video: "https://www.youtube.com/embed/RvV3nnvo2iQ"
+    },
+    ifelse: {
+      title: "8. If-Else Conditions",
+      notes: "Use if-elif-else statements to execute code based on conditions. Conditions evaluate to True or False.\n\nExample:\nage = 18\nif age < 13:\n    print('Child')\nelif age < 20:\n    print('Teenager')\nelse:\n    print('Adult')",
+      video: "https://www.youtube.com/embed/f4KOjWS_KZs"
+    },
+    loops: {
+      title: "9. Loops (for & while)",
+      notes: "Loops repeat code blocks. 'for' loops iterate over sequences, 'while' loops run while a condition is true.\n\nExample:\n# For loop\nfor i in range(5):\n    print(i)\n\n# While loop\ncount = 0\nwhile count < 5:\n    print(count)\n    count += 1",
+      video: "https://www.youtube.com/embed/6iF8Xb7Z3wQ"
+    },
+    functions: {
+      title: "10. Functions",
+      notes: "Functions are reusable blocks of code defined with 'def'. They can take parameters and return values.\n\nExample:\ndef greet(name):\n    return f'Hello, {name}!'\n\nmessage = greet('Alice')\nprint(message)  # Hello, Alice!",
+      video: "https://www.youtube.com/embed/9Os0o3wzS_I"
+    },
+    modules: {
+      title: "11. Modules & Importing",
+      notes: "Modules are Python files containing reusable code. Use 'import' to access their contents.\n\nExample:\nimport math\nprint(math.sqrt(16))  # 4.0\n\nfrom datetime import date\ntoday = date.today()\nprint(today)",
+      video: "https://www.youtube.com/embed/1RuMJ53CKds"
+    },
+    files: {
+      title: "12. File Handling",
+      notes: "Python can read and write files using open(). Always close files or use 'with' statement.\n\nExample:\n# Writing to a file\nwith open('example.txt', 'w') as f:\n    f.write('Hello file!')\n\n# Reading from a file\nwith open('example.txt', 'r') as f:\n    content = f.read()\nprint(content)",
+      video: "https://www.youtube.com/embed/Uh2ebFW8OYM"
+    },
+    exceptions: {
+      title: "13. Exception Handling",
+      notes: "Use try-except blocks to handle errors gracefully and prevent program crashes.\n\nExample:\ntry:\n    result = 10 / 0\nexcept ZeroDivisionError:\n    print('Cannot divide by zero!')\nelse:\n    print(result)\nfinally:\n    print('This always runs')",
+      video: "https://www.youtube.com/embed/NIWwJbo-9_8"
+    },
+    classes: {
+      title: "14. Classes & Objects",
+      notes: "Classes are blueprints for creating objects with attributes and methods.\n\nExample:\nclass Dog:\n    def __init__(self, name):\n        self.name = name\n    \n    def bark(self):\n        print('Woof!')\n\nmy_dog = Dog('Rex')\nmy_dog.bark()",
+      video: "https://www.youtube.com/embed/ZDa-Z5JzLYM"
+    },
+    inheritance: {
+      title: "15. Inheritance",
+      notes: "Inheritance allows a class to inherit attributes and methods from another class.\n\nExample:\nclass Animal:\n    def speak(self):\n        pass\n\nclass Dog(Animal):\n    def speak(self):\n        print('Woof!')\n\nmy_dog = Dog()\nmy_dog.speak()",
+      video: "https://www.youtube.com/embed/RSl87lqOXDE"
+    },
+    decorators: {
+      title: "16. Decorators",
+      notes: "Decorators modify the behavior of functions without changing their code.\n\nExample:\ndef my_decorator(func):\n    def wrapper():\n        print('Before function')\n        func()\n        print('After function')\n    return wrapper\n\n@my_decorator\ndef say_hello():\n    print('Hello!')\n\nsay_hello()",
+      video: "https://www.youtube.com/embed/FsAPt_9Bf3U"
+    },
+    generators: {
+      title: "17. Generators",
+      notes: "Generators are functions that yield values one at a time, memory-efficient for large datasets.\n\nExample:\ndef count_up_to(max):\n    count = 1\n    while count <= max:\n        yield count\n        count += 1\n\ncounter = count_up_to(5)\nfor num in counter:\n    print(num)",
+      video: "https://www.youtube.com/embed/bD05uGo_sVI"
+    },
+    lambdas: {
+      title: "18. Lambda Functions",
+      notes: "Lambda functions are small anonymous functions defined with the lambda keyword.\n\nExample:\ndouble = lambda x: x * 2\nprint(double(5))  # 10\n\n# Used with map()\nnumbers = [1, 2, 3]\nsquared = list(map(lambda x: x**2, numbers))\nprint(squared)  # [1, 4, 9]",
+      video: "https://www.youtube.com/embed/25ovCm9jKfA"
+    },
+    comprehensions: {
+      title: "19. List Comprehensions",
+      notes: "Concise way to create lists based on existing lists or other iterables.\n\nExample:\nnumbers = [1, 2, 3, 4]\nsquares = [x**2 for x in numbers]\nprint(squares)  # [1, 4, 9, 16]\n\neven_squares = [x**2 for x in numbers if x % 2 == 0]\nprint(even_squares)  # [4, 16]",
+      video: "https://www.youtube.com/embed/3dt4OGnU5sM"
+    },
+    datetime: {
+      title: "20. Date & Time",
+      notes: "Python's datetime module helps work with dates and times.\n\nExample:\nfrom datetime import datetime, timedelta\n\nnow = datetime.now()\nprint(now.strftime('%Y-%m-%d %H:%M:%S'))\n\ntomorrow = now + timedelta(days=1)\nprint(tomorrow.date())",
+      video: "https://www.youtube.com/embed/eirjjyP2qcQ"
+    }
+  };
+  function showLesson(key) {
+    const lesson = lessons[key];
+    document.getElementById('lesson-title').innerText = lesson.title;
+    document.getElementById('lesson-notes').innerText = lesson.notes;
+    document.getElementById('lesson-video').src = lesson.video;
+    document.getElementById('lesson-content').style.display = 'block';
+  }
 
-        const lessons = [
-            { title: 'Variables', brief: 'Store and name data values.', contentNote: 'Variables allow you to store data using the syntax <code>x = 5</code>. They can hold numbers, text, or more complex types.', video: 'https://www.youtube.com/embed/ohCDWZgNIU0' },
-            { title: 'Data Types', brief: 'Understand Python types.', contentNote: 'Python supports types like <code>int</code>, <code>float</code>, <code>str</code>, <code>list</code>, <code>dict</code>, and more. Each type has specific methods and uses.', video: 'https://www.youtube.com/embed/U4ogK0MIzqk' },
-            { title: 'Strings', brief: 'Work with text.', contentNote: 'Strings are sequences of characters. You can manipulate them with methods like <code>.upper()</code>, <code>.split()</code>, and use f-strings for formatting.', video: 'https://www.youtube.com/embed/k9TUPpGqYTo' },
-            { title: 'Lists & Tuples', brief: 'Collections of items.', contentNote: 'Lists are mutable sequences defined with <code>[]</code>, while tuples are immutable, defined with <code>()</code>. Use lists for changeable data and tuples for fixed collections.', video: 'https://www.youtube.com/embed/W8KRzm-HUcc' },
-            { title: 'Dictionaries', brief: 'Key-value storage.', contentNote: 'Dictionaries map unique keys to values. Defined with <code>{}</code>, they allow fast lookup and storage of related data.', video: 'https://www.youtube.com/embed/daefaLgNkw0' },
-            { title: 'Control Flow', brief: 'Branching logic.', contentNote: 'Use <code>if</code>, <code>elif</code>, and <code>else</code> to execute code based on conditions. Loop with <code>for</code> and <code>while</code> for repetition.', video: 'https://www.youtube.com/embed/EnSu9hHGq5o' },
-            { title: 'Functions', brief: 'Reusable code blocks.', contentNote: 'Define functions with <code>def</code> to encapsulate logic. Functions can accept parameters and return values.', video: 'https://www.youtube.com/embed/9Os0o3wzS_I' },
-            { title: 'File I/O', brief: 'Read and write files.', contentNote: 'Perform file operations with <code>open()</code>. Read, write, and close files, and use context managers for safe handling.', video: 'https://www.youtube.com/embed/U_hqBoD4N-4' }
-        ];
-        let lessonsCompleted = 0;
-        function loadLessons() {
-            const container = document.getElementById('lessons'); container.innerHTML = '';
-            lessons.forEach((lesson, i) => {
-                const card = document.createElement('div'); card.className = 'card lesson-card';
-                card.innerHTML = `<strong>${lesson.title}</strong><span>${lesson.brief}</span><small>${lesson.contentNote}</small>`;
-                card.onclick = () => {
-                    const detail = window.open('', '_blank', 'width=700,height=500');
-                    detail.document.write(`
-                        <body style="background:var(--bg-dark);color:var(--text-primary);font-family:Roboto;padding:1rem;">
-                        <h3>${lesson.title}</h3>
-                        ${lesson.contentNote}
-                        <iframe width="100%" height="315" src="${lesson.video}" frameborder="0" allowfullscreen></iframe>
-                        </body>
-                    `);
-                    if (!lesson.completed) { lesson.completed = true; lessonsCompleted = lessons.filter(l => l.completed).length; document.getElementById('lesson-progress').innerText = lessonsCompleted; }
-                };
-                container.appendChild(card);
-            });
-        }
+  // Quiz logic
+  const quizData = [
+    { question: "What is the output of print(2 + 2)?", options: ["2", "4", "5", "None"], correct: "4" },
+    { question: "Which keyword defines a function?", options: ["def", "function", "fun", "define"], correct: "def" },
+    { question: "How do you create a list in Python?", options: ["{}", "[]", "()", "<>"], correct: "[]" },
+    { question: "Which loop runs while a condition is true?", options: ["for", "while", "repeat", "loop"], correct: "while" },
+    { question: "What does the 'elif' keyword mean?", options: ["Else if", "End if", "Else for", "End loop"], correct: "Else if" }
+  ];
+  let currentQuestion = 0;
+  function loadQuiz() {
+    const q = quizData[currentQuestion];
+    document.getElementById('quiz-question').innerText = q.question;
+    const optDiv = document.getElementById('quiz-options');
+    optDiv.innerHTML = '';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.innerText = opt;
+      btn.onclick = () => checkAnswer(opt);
+      optDiv.appendChild(btn);
+    });
+  }
+  function checkAnswer(selected) {
+    const q = quizData[currentQuestion];
+    document.getElementById('quiz-result').innerText = (selected === q.correct) ? "Correct!" : `Wrong! Correct: ${q.correct}`;
+    currentQuestion = (currentQuestion + 1) % quizData.length;
+    setTimeout(() => {
+      document.getElementById('quiz-result').innerText = '';
+      loadQuiz();
+    }, 2000);
+  }
+  loadQuiz();
 
-        const quizQuestions = [
-            { question: 'What does "print()" do?', options: ['Outputs text','Inputs text','Creates a variable','Deletes data'], answer: 0 },
-            { question: 'Declare a list with?', options: ['{}','[]','<>','()'], answer: 1 },
-            { question: 'Start function syntax?', options: ['func','def','function','fun'], answer: 1 },
-            { question: 'Which keyword reads a file?', options: ['read()','open()','file()','load()'], answer: 1 },
-            { question: 'Loop over a range?', options: ['for i to 5','for i in range(5)','loop(5)','while i<5'], answer: 1 },
-            { question: 'Check equality?', options: ['=','==','===','equal'], answer: 1 }
-        ];
-        let currentQuiz = 0, quizCompleted = 0;
-        function loadQuiz() {
-            const q = quizQuestions[currentQuiz];
-            document.getElementById('quiz-question').innerText = q.question;
-            const opts = document.getElementById('quiz-options'); opts.innerHTML = '';
-            q.options.forEach((opt, idx) => {
-                const btn = document.createElement('button'); btn.innerText = opt;
-                btn.onclick = () => {
-                    if (idx === q.answer) { quizCompleted++; document.getElementById('quiz-progress').innerText = quizCompleted; alert('Correct!'); } else alert('Wrong');
-                };
-                opts.appendChild(btn);
-            });
-        }
-        function nextQuestion() { currentQuiz = (currentQuiz + 1) % quizQuestions.length; loadQuiz(); }
+  // Fill-in-the-blank puzzle logic
+  const fillPuzzles = [
+    { question: "Python is a __ language.", options: ["high-level", "low-level", "assembly"], answer: "high-level" },
+    { question: "The function to display output is __.", options: ["print()", "echo()", "display()"], answer: "print()" },
+    { question: "The __ statement is used to handle exceptions.", options: ["try", "catch", "handle"], answer: "try" },
+    { question: "A __ is an unordered collection with no duplicate elements.", options: ["set", "list", "tuple"], answer: "set" },
+    { question: "The __ method is called when an object is created.", options: ["__init__", "__new__", "__create__"], answer: "__init__" }
+  ];
+  let fillIndex = 0;
+  function loadFillPuzzle() {
+    const p = fillPuzzles[fillIndex];
+    document.getElementById('fill-in-blank-question').innerText = p.question;
+    const optDiv = document.getElementById('fill-in-blank-options');
+    optDiv.innerHTML = '';
+    p.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.innerText = opt;
+      btn.onclick = () => checkFill(opt);
+      optDiv.appendChild(btn);
+    });
+  }
+  function checkFill(selected) {
+    const p = fillPuzzles[fillIndex];
+    document.getElementById('fill-in-blank-answer').innerText = (selected === p.answer) ? "Correct!" : `Wrong! Correct: ${p.answer}`;
+    fillIndex = (fillIndex + 1) % fillPuzzles.length;
+    setTimeout(() => {
+      document.getElementById('fill-in-blank-answer').innerText = '';
+      loadFillPuzzle();
+    }, 2000);
+  }
+  loadFillPuzzle();
 
-        function sendChat() {
-            const inp = document.getElementById('chat-input'), msg = inp.value.trim(); if (!msg) return;
-            const box = document.getElementById('chat-messages');
-            ['You: ' + msg, 'PyBuddy: ' + (msg.toLowerCase().includes('file') ? 'Use open() for File I/O' : 'Ask about topics.')]
-            .forEach((t, i) => { const d = document.createElement('div'); d.className = 'chatbox ' + (i ? 'bot' : 'user'); d.innerText = t; box.appendChild(d); });
-            inp.value = ''; box.scrollTop = box.scrollHeight;
-        }
-
-        function updateProgress() { document.getElementById('lesson-progress').innerText = lessonsCompleted; document.getElementById('quiz-progress').innerText = quizCompleted; }
-
-        // Init
-        loadLessons(); loadQuiz();
-    </script>
+  // Chatbot logic with greetings and video responses
+  const responses = {
+    greeting: {
+      text: "Hello! I'm PyBuddy, your Python learning assistant. How can I help you today?",
+      video: ""
+    },
+    variable: {
+      text: "Variables are used to store data, like numbers or text. In Python, you create a variable by assigning a value to it with the = operator. Example: x = 5",
+      video: "https://www.youtube.com/embed/ohCDWZgNIU0"
+    },
+    loop: {
+      text: "Loops let you repeat actions. Python has 'for' loops (for iterating over sequences) and 'while' loops (for repeating while a condition is true). Example: for i in range(5): print(i)",
+      video: "https://www.youtube.com/embed/6iF8Xb7Z3wQ"
+    },
+    function: {
+      text: "Functions help organize reusable code, defined using 'def'. They can take parameters and return values. Example: def greet(name): return f'Hello {name}'",
+      video: "https://www.youtube.com/embed/9Os0o3wzS_I"
+    },
+    if: {
+      text: "If statements let you run code only when a condition is true. You can add 'elif' for additional conditions and 'else' for a default case. Example: if x > 0: print('Positive')",
+      video: "https://www.youtube.com/embed/f4KOjWS_KZs"
+    },
+    list: {
+      text: "Lists are ordered, mutable collections of items. Created with square brackets []. Example: fruits = ['apple', 'banana']",
+      video: "https://www.youtube.com/embed/Eaz5e6M8tL4"
+    },
+    dictionary: {
+      text: "Dictionaries store key-value pairs in curly braces {}. Example: person = {'name': 'John', 'age': 30}",
+      video: "https://www.youtube.com/embed/daefaLgNkw0"
+    },
+    class: {
+      text: "Classes are blueprints for creating objects with attributes and methods. Example: class Dog: def __init__(self, name): self.name = name",
+      video: "https://www.youtube.com/embed/ZDa-Z5JzLYM"
+    }
+  };
+  
+  const greetings = ["hi", "hello", "hey", "greetings", "howdy"];
+  
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      sendMessage();
+    }
+  }
+  
+  function sendMessage() {
+    const input = document.getElementById('user-input');
+    const history = document.getElementById('chat-history');
+    const text = input.value.trim().toLowerCase();
+    if (!text) return;
+    
+    history.innerHTML += `<p>You: ${input.value}</p>`;
+    
+    // Check for greetings
+    let isGreeting = greetings.some(greet => text.includes(greet));
+    if (isGreeting) {
+      const response = responses.greeting;
+      history.innerHTML += `<p>PyBuddy: ${response.text}</p>`;
+      input.value = '';
+      history.scrollTop = history.scrollHeight;
+      return;
+    }
+    
+    // Check for other keywords
+    let reply = responses.greeting;
+    let video = "";
+    for (const key in responses) {
+      if (text.includes(key)) {
+        reply = responses[key].text;
+        video = responses[key].video;
+        break;
+      }
+    }
+    
+    if (reply === responses.greeting) {
+      reply = "I'm not sure about that. Try asking about variables, loops, functions, if-statements, lists, dictionaries, or classes.";
+    }
+    
+    history.innerHTML += `<p>PyBuddy: ${reply}</p>`;
+    
+    if (video) {
+      history.innerHTML += `<iframe src="${video}" allowfullscreen></iframe>`;
+    }
+    
+    input.value = '';
+    history.scrollTop = history.scrollHeight;
+  }
+</script>
 </body>
 </html>
